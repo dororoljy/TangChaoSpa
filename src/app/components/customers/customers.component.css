@@ -1,0 +1,13 @@
+table tr th:nth-child(5) {
+  width: 60%;
+}
+textarea {
+  /* resize: none;
+  overflow: hidden; */
+  min-height: 200px;
+  max-height: 300px;
+}
+
+.is-complete {
+  text-decoration: line-through;
+}

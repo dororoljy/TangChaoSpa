@@ -1,0 +1,107 @@
+<app-header> </app-header>
+<!-- <div class="col-md-6" align="center" style="margin: 0px auto;"> -->
+
+<div class="col-md-6">
+  <h3 style="margin-top:10px;">Enter Customer's phone number</h3>
+  <input
+    type="text"
+    [(ngModel)]="phone"
+    (input)="search()"
+    style="margin:10px;"
+  />
+
+  <table class="table table-bordered">
+    <thead></thead>
+    <tr>
+      <th>id</th>
+      <th>name</th>
+      <th>phone</th>
+      <th>Appointment Date</th>
+      <th>Appointment Time</th>
+      <th>History</th>
+      <th>other</th>
+      <th>Operations</th>
+    </tr>
+
+    <tbody>
+      <tr
+        *ngFor="
+          let customer of customers
+            | paginate
+              : { itemsPerPage: 10, currentPage: page, totaltems: totalRecords }
+        "
+        [ngClass]="setClasses(customer)"
+      >
+        <td>{{ customer.id }}</td>
+
+        <td *ngIf="customer.id === EditRowID">
+          <input
+            type="text"
+            [(ngModel)]="customer.name"
+            align="center"
+            style="margin: 0px auto;"
+          />
+        </td>
+        <td *ngIf="customer.id !== EditRowID" (click)="edit(customer.id)">
+          {{ customer.name }}
+        </td>
+        <td *ngIf="customer.id === EditRowID">
+          <input type="text" [(ngModel)]="customer.phone" />
+        </td>
+        <td *ngIf="customer.id !== EditRowID" (click)="edit(customer.id)">
+          {{ customer.phone }}
+        </td>
+
+        <td *ngIf="customer.id === EditRowID">
+          <input type="date" [(ngModel)]="customer.date" />
+        </td>
+
+        <td *ngIf="customer.id !== EditRowID" (click)="edit(customer.id)">
+          {{ customer.date.substring(0, 10) }}
+        </td>
+        <td *ngIf="customer.id === EditRowID">
+          <input type="time" [(ngModel)]="customer.time" />
+        </td>
+        <td *ngIf="customer.id !== EditRowID" (click)="edit(customer.id)">
+          {{ customer.time }}
+        </td>
+        <td *ngIf="customer.id === EditRowID">
+          <textarea type="text" [(ngModel)]="customer.detail"> </textarea>
+        </td>
+        <td *ngIf="customer.id !== EditRowID" (click)="edit(customer.id)">
+          {{ customer.detail }}
+        </td>
+        <td *ngIf="customer.id === EditRowID">
+          <textarea type="text" [(ngModel)]="customer.other"></textarea>
+        </td>
+        <td *ngIf="customer.id !== EditRowID" (click)="edit(customer.id)">
+          {{ customer.other }}
+        </td>
+        <td>
+          Completed<input
+            type="checkbox"
+            (click)="ChangeCustomerCompleted(customer)"
+          />
+          <button
+            class="btn btn-danger"
+            (click)="deleteCustomer(customer)"
+            style="margin:5px;"
+          >
+            Delete
+          </button>
+          <br />
+          <button
+            class="btn btn-success"
+            (click)="updateCustomer(customer)"
+            style="margin:5px;"
+          >
+            Update
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+  </div>
+</div>
